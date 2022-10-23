@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "eb29e992-8d53-44ae-8c4d-41f12fbbae6d",
+		"name": "Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21887350"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n     \"email\" : \"test@gmail.com\",\n    \"password\" : \"123\",\n    \"firstName\" : \"first\",\n    \"lastName\" : \"last\",\n    \"roles\" : [\"USER\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/uaa/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"uaa",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh-token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY2NjU1NTc1NiwiZXhwIjoxNjY2NjIwNTU2fQ.xrk4Au3ieW4kKXcJK1nU9nSDz1yuttbOtlG2wR1LCEQHXT9AboIerGSwmzZ2y4HFtoJtSKuW7gAm3EXu7QiMyw\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/uaa/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"uaa",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTY2NjU1NTc1NiwiZXhwIjoxNjY2NjIwNTU2fQ.xrk4Au3ieW4kKXcJK1nU9nSDz1yuttbOtlG2wR1LCEQHXT9AboIerGSwmzZ2y4HFtoJtSKuW7gAm3EXu7QiMyw\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/uaa/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"uaa",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
