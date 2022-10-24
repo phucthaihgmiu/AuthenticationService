@@ -3,8 +3,7 @@ spring:
     name: authentication
 
   datasource:
-#    url: jdbc:mysql://localhost:3300/authenticationdb
-    url: ${AUTHENTICATION_DB_URL}
+    url: jdbc:mysql://localhost:3300/authenticationdb
     username: root
     password: dbadmin
 
@@ -29,5 +28,4 @@ spring:
     allow-bean-definition-overriding: true
 
 server:
-#  port: 5001
-  port: ${AUTHENTICATION_SERVICE_PORT}
+  port: 5001

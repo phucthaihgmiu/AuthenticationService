@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootTest
+//@SpringBootTest
 class AuthenticationServiceApplicationTests {
 
-    @Test
+   // @Test
     void contextLoads() {
     }
 
-    @Bean
+    //@Bean
     public JwtHelper jwtHelper(){
         return new JwtHelper();
     }
