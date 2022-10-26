@@ -1,6 +1,7 @@
 package com.example.authenticationservice.security;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
@@ -11,7 +12,10 @@ import java.util.Map;
 @Slf4j
 public class JwtHelper {
 
-    private final static String SECRET = "top-secret";
+    @Value("${jwt.secret}")
+    private String SECRET;
+
+//    private final static String SECRET = "top-secret";
 
     private final static long EXPIRATION = 5 * 60 * 60 * 60;
 

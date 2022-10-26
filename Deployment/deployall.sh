@@ -1,14 +1,4 @@
-kubectl apply -f CommonConfig.yml
-
-services=(
-"Authenticationdb"
-"Authentication"
-)
-
-for svc in "${services[@]}"; do
-    echo "$svc"
-    cd $svc
-    bash deploy.sh
-    cd ..
-done
+kubectl apply -f service-configmap.yml
+kubectl apply -f service-secret.yml
+kubectl apply -f authentication-service.yml
 

@@ -1,33 +1,39 @@
 spring:
-  application:
-    name: authentication
-
-  datasource:
-#    url: jdbc:mysql://localhost:3300/authenticationdb
-    url: ${AUTHENTICATION_DB_URL}
-    username: root
-    password: dbadmin
-
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
-        format_sql: true
-
-    show-sql: true
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
-
+  config:
+    activate:
+      on-profile: dev
 
   main:
     allow-bean-definition-overriding: true
 
-server:
-#  port: 5001
-  port: ${AUTHENTICATION_SERVICE_PORT}
+  data:
+    cassandra:
+      contact-points: "localhost"
+      port: 9042
+      keyspace-name: authentication
+      schema-action: create_if_not_exists
+      local-datacenter: datacenter1
+
+jwt:
+  secret: "top_secret"
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  main:
+    allow-bean-definition-overriding: ${SPRING_ALLOW_BEAN_DEFINITION_OVERRIDING}
+  data:
+    cassandra:
+      contact-points: ${DB_CONTACT_POINTS}
+      port: ${DB_PORT}
+      keyspace-name: ${DB_AUTHENTICATION_KEYSPACE}
+      schema-action: ${DB_SCHEME_ACTION}
+      local-datacenter: ${DB_DATACENTER}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+#server:
+#  port: ${AUTHENTICATION_SERVICE_PORT}

@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private final JwtHelper jwtHelper;
 
-    private final UserDetailsService userDetailsService;
+//    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -35,11 +35,13 @@ public class JwtFilter extends OncePerRequestFilter {
             boolean isValidToken = jwtHelper.validateToken(token);
             if(isValidToken && SecurityContextHolder.getContext().getAuthentication() == null) {
                 var email = jwtHelper.getUsernameFromToken(token);
-                var userDetails = userDetailsService.loadUserByUsername(email);
+//                var userDetails = userDetailsService.loadUserByUsername(email);
 
                 UsernamePasswordAuthenticationToken authentication
                         = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
+                                email, null, null
+                );
+//                            userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

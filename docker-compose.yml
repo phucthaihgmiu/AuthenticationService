@@ -2,20 +2,41 @@ version: "3.8"
 
 services:
   #Authentication Services
-  db-account:
-    image: mysql:8.0
-    cap_add:
-      - SYS_NICE
+#  db-account:
+#    image: mysql:8.0
+#    cap_add:
+#      - SYS_NICE
+#    restart: always
+#    environment:
+#      - MYSQL_DATABASE=authenticationdb
+#      - MYSQL_ROOT_PASSWORD=dbadmin
+#
+#    ports:
+#      - "3300:3306"
+#    volumes:
+#      - db_authentication:/var/lib/mysql
+
+  reservation-db:
+    image: cassandra:4.0
+    container_name: authentication-db
     restart: always
     environment:
-      - MYSQL_DATABASE=authenticationdb
-      - MYSQL_ROOT_PASSWORD=dbadmin
-
+      - M:1
     ports:
-      - "3300:3306"
+      - "9042:9042"
+      - "9160:9160"
+    networks:
+      - authentication-network
     volumes:
-      - db_authentication:/var/lib/mysql
+      - authentication-vol:/var/lib/cassandra
 
+#volumes:
+#  db_authentication:
+#    driver: local
 volumes:
-  db_authentication:
+  authentication-vol:
     driver: local
+
+networks:
+  authentication-network:
+    driver: bridge

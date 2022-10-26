@@ -5,7 +5,6 @@ import com.example.authenticationservice.security.JwtHelper;
 import com.example.authenticationservice.security.SecurityConfiguration;
 import com.example.authenticationservice.service.UaaService;
 import com.example.authenticationservice.util.TestUtils;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +63,7 @@ public class UaaControllerTest {
                 .email("test@gmail.com")
                 .firstName("first")
                 .lastName("last")
-                .roles(new ArrayList<>() {
-                    {
-                        add("USER");
-                    }
-                })
+                .role("USER")
                 .build();
 
         when(uaaService.login(loginRequestDto)).thenReturn(loginResponseDto);
@@ -85,7 +80,7 @@ public class UaaControllerTest {
                 .andExpect(jsonPath("$.email", is(loginResponseDto.getEmail())))
                 .andExpect(jsonPath("$.firstName", is(loginResponseDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(loginResponseDto.getLastName())))
-                .andExpect(jsonPath("$.roles", is(loginResponseDto.getRoles())));
+                .andExpect(jsonPath("$.role", is(loginResponseDto.getRole())));
     }
 
     @Test
@@ -95,11 +90,7 @@ public class UaaControllerTest {
                 .password("123")
                 .firstName("first")
                 .lastName("last")
-                .roles(new ArrayList<>() {
-                    {
-                        add("USER");
-                    }
-                })
+                .role("USER")
                 .build();
 
         LoginResponseDto loginResponseDto = LoginResponseDto.builder()
@@ -108,11 +99,7 @@ public class UaaControllerTest {
                 .email("test@gmail.com")
                 .firstName("first")
                 .lastName("last")
-                .roles(new ArrayList<>() {
-                    {
-                        add("USER");
-                    }
-                })
+                .role("USER")
                 .build();
 
         when(uaaService.register(userDto)).thenReturn(loginResponseDto);
@@ -129,7 +116,7 @@ public class UaaControllerTest {
                 .andExpect(jsonPath("$.email", is(loginResponseDto.getEmail())))
                 .andExpect(jsonPath("$.firstName", is(loginResponseDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(loginResponseDto.getLastName())))
-                .andExpect(jsonPath("$.roles", is(loginResponseDto.getRoles())));
+                .andExpect(jsonPath("$.role", is(loginResponseDto.getRole())));
     }
 
     @Test
@@ -144,11 +131,7 @@ public class UaaControllerTest {
                 .email("test@gmail.com")
                 .firstName("first")
                 .lastName("last")
-                .roles(new ArrayList<>() {
-                    {
-                        add("USER");
-                    }
-                })
+                .role("USER")
                 .build();
 
         when(uaaService.refreshToken(refreshTokenRequestDto)).thenReturn(loginResponseDto);
@@ -165,7 +148,7 @@ public class UaaControllerTest {
                 .andExpect(jsonPath("$.email", is(loginResponseDto.getEmail())))
                 .andExpect(jsonPath("$.firstName", is(loginResponseDto.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(loginResponseDto.getLastName())))
-                .andExpect(jsonPath("$.roles", is(loginResponseDto.getRoles())));
+                .andExpect(jsonPath("$.role", is(loginResponseDto.getRole())));
     }
 
     @Test

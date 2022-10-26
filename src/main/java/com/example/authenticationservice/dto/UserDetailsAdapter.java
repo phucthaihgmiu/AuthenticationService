@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,12 @@ public class UserDetailsAdapter implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return  user.getRoles().stream()
-                .map(r -> ("ROLE_" + r.getRole().toUpperCase(Locale.ROOT)))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
+        return Collections.emptyList();
+
+//        return  user.getRoles().stream()
+//                .map(r -> ("ROLE_" + r.getRole().toUpperCase(Locale.ROOT)))
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toSet());
     }
 
     @Override

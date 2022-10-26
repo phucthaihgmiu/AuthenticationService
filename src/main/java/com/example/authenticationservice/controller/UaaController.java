@@ -4,14 +4,12 @@ import com.example.authenticationservice.dto.*;
 import com.example.authenticationservice.exception.MyException;
 import com.example.authenticationservice.service.UaaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/uaa")
 @RequiredArgsConstructor
+@CrossOrigin
 public class UaaController {
 
     private final UaaService uaaService;

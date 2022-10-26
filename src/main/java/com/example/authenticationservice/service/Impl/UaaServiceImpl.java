@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class UaaServiceImpl implements UaaService {
     private final JwtHelper jwtHelper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
-    private final RoleService roleService;
+//    private final RoleService roleService;
 
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequest) {
@@ -42,54 +43,63 @@ public class UaaServiceImpl implements UaaService {
             throw new MyException("Exception : " + e.getMessage());
         }
 
+        System.out.println("before findByEmail");
         final User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new MyException("User Not Found"));
 
         final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
         final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
-        final List<String> roles = user.getRolesAsString();
+//        final List<String> roles = user.getRolesAsString();
 
         LoginResponseDto loginResponse = new LoginResponseDto(
                 accessToken, refreshToken,
-                loginRequest.getEmail(), user.getFirstName(), user.getLastName(), roles);
+                user.getEmail(), user.getFirstName(),
+                user.getLastName(), user.getRole()
+//                roles
+        );
         return loginResponse;
     }
 
     @Override
     public LoginResponseDto register(UserDto inUser) throws MyException {
-        System.out.println("UaaServiceImpl - register");
-        if(userRepository.findByEmail(inUser.getEmail()).isPresent()){
+        System.out.println("UaaServiceImpl - register " + inUser.toString());
+
+        if(userRepository.findByEmail(inUser.getEmail()).isEmpty()) {
+        }else{
             throw new MyException("User exists");
         }
 
+        System.out.println("before hashed password");
         String hashedPwd = bCryptPasswordEncoder.encode(inUser.getPassword());
 
         User outUser = new User();
+        outUser.setId(UUID.randomUUID());
         outUser.setEmail(inUser.getEmail());
         outUser.setPassword(hashedPwd);
         outUser.setFirstName(inUser.getFirstName());
         outUser.setLastName(inUser.getLastName());
 
-        if(inUser.getRoles() == null && inUser.getRoles().size() == 0) {
-            Role role = roleService.getByName("USER");
-            if(role == null) {
-                role = new Role();
-                role.setRole("USER");
-            }
-            outUser.addRole(role);
-        }else{
-            inUser.getRoles().forEach(r -> {
-                Role role = null;
-                if(roleService.getByName(r) != null) {
-                    role = roleService.getByName(r);
-                }else{
-                    role = new Role();
-                    role.setRole(r);
-                }
-
-                outUser.addRole(role);
-            });
-        }
+        outUser.setRole(inUser.getRole());
+//        if(inUser.getRoles() == null && inUser.getRoles().size() == 0) {
+//            Role role = roleService.getByName("USER");
+//            if(role == null) {
+//                role = new Role();
+//                role.setRole("USER");
+//            }
+//            outUser.addRole(role);
+//        }else{
+//            inUser.getRoles().forEach(r -> {
+//                Role role = null;
+//                if(roleService.getByName(r) != null) {
+//                    role = roleService.getByName(r);
+//                }else{
+//                    role = new Role();
+//                    role.setRole(r);
+//                }
+//
+//                outUser.addRole(role);
+//            });
+//        }
 
         userRepository.save(outUser);
 
@@ -98,8 +108,10 @@ public class UaaServiceImpl implements UaaService {
 
         LoginResponseDto loginResponse = new LoginResponseDto(
                 accessToken, refreshToken,
-                outUser.getEmail(), outUser.getFirstName(), outUser.getLastName(),
-                outUser.getRolesAsString());
+                outUser.getEmail(), outUser.getFirstName(),
+                outUser.getLastName(), outUser.getRole()
+//                outUser.getRolesAsString()
+        );
         return loginResponse;
     }
 
@@ -113,7 +125,10 @@ public class UaaServiceImpl implements UaaService {
                 User user = userRepository.findByEmail(email).get();
                 final String accessToken = jwtHelper.generateToken(jwtHelper.getSubject(refreshTokenRequest.getRefreshToken()));
                 var loginResponse = new LoginResponseDto(accessToken, refreshTokenRequest.getRefreshToken(),
-                        email, user.getFirstName(), user.getLastName(), user.getRolesAsString());
+                        email, user.getFirstName(),
+                        user.getLastName(), user.getRole()
+//                        user.getRolesAsString()
+                );
                 return loginResponse;
             }
         }

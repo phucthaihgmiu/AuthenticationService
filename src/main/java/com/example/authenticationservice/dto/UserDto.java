@@ -19,5 +19,6 @@ public class UserDto {
 
     private String lastName;
 
-    private List<String> roles;
+//    private List<String> roles;
+    private String role;
 }
