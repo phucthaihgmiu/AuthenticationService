@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: authentication-service
-          image: phucthaihg/authentication:1.2
+          image: phucthaihg/authentication:1.5
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"

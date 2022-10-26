@@ -34,8 +34,14 @@ spring:
       request:
         timeout: ${DB_REQUEST_TIMEOUT}
 
+  zipkin:
+    baseUrl: ${ZIPKIN_SERVER}
+    service:
+      name: ${ZIPKIN_AUTHENTICATION_SERVICE}
+
 jwt:
   secret: ${JWT_SECRET}
+
 
 #server:
 #  port: ${AUTHENTICATION_SERVICE_PORT}
