@@ -31,6 +31,8 @@ spring:
       keyspace-name: ${DB_AUTHENTICATION_KEYSPACE}
       schema-action: ${DB_SCHEME_ACTION}
       local-datacenter: ${DB_DATACENTER}
+      request:
+        timeout: ${DB_REQUEST_TIMEOUT}
 
 jwt:
   secret: ${JWT_SECRET}

@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/actuator/health/**").permitAll()
                 .antMatchers("/uaa/**").permitAll()
                 .anyRequest()
                 .authenticated()
