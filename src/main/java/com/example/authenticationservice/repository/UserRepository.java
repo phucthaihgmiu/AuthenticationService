@@ -10,9 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-//public interface UserRepository extends CrudRepository<User, UUID> {
-public interface UserRepository extends CassandraRepository<User, UUID>{
-    @AllowFiltering
+public interface UserRepository extends CassandraRepository<User, String>{
     Optional<User> findByEmail(String email);
 }
 

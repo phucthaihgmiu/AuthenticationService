@@ -73,34 +73,13 @@ public class UaaServiceImpl implements UaaService {
         String hashedPwd = bCryptPasswordEncoder.encode(inUser.getPassword());
 
         User outUser = new User();
-        outUser.setId(UUID.randomUUID());
+//        outUser.setId(UUID.randomUUID());
         outUser.setEmail(inUser.getEmail());
         outUser.setPassword(hashedPwd);
         outUser.setFirstName(inUser.getFirstName());
         outUser.setLastName(inUser.getLastName());
 
         outUser.setRole(inUser.getRole());
-//        if(inUser.getRoles() == null && inUser.getRoles().size() == 0) {
-//            Role role = roleService.getByName("USER");
-//            if(role == null) {
-//                role = new Role();
-//                role.setRole("USER");
-//            }
-//            outUser.addRole(role);
-//        }else{
-//            inUser.getRoles().forEach(r -> {
-//                Role role = null;
-//                if(roleService.getByName(r) != null) {
-//                    role = roleService.getByName(r);
-//                }else{
-//                    role = new Role();
-//                    role.setRole(r);
-//                }
-//
-//                outUser.addRole(role);
-//            });
-//        }
-
         userRepository.save(outUser);
 
         final String accessToken = jwtHelper.generateToken(outUser.getEmail());
@@ -110,7 +89,6 @@ public class UaaServiceImpl implements UaaService {
                 accessToken, refreshToken,
                 outUser.getEmail(), outUser.getFirstName(),
                 outUser.getLastName(), outUser.getRole()
-//                outUser.getRolesAsString()
         );
         return loginResponse;
     }
@@ -127,7 +105,6 @@ public class UaaServiceImpl implements UaaService {
                 var loginResponse = new LoginResponseDto(accessToken, refreshTokenRequest.getRefreshToken(),
                         email, user.getFirstName(),
                         user.getLastName(), user.getRole()
-//                        user.getRolesAsString()
                 );
                 return loginResponse;
             }
